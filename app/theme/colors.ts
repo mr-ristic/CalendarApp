@@ -1,41 +1,42 @@
-// TODO: write documentation for colors and palette in own markdown file and add links from here
-
 const palette: Record<string, string> = {
-  neutral100: "#FFFFFF",
-  neutral200: "#F4F2F1",
-  neutral300: "#D7CEC9",
-  neutral400: "#B6ACA6",
-  neutral500: "#978F8A",
-  neutral600: "#564E4A",
-  neutral700: "#3C3836",
-  neutral800: "#191015",
-  neutral900: "#000000",
+  neutral100: '#94A3B8',
+  neutral200: '#64748B',
+  neutral300: '#475569',
+  neutral400: '#1E293B',
+  neutral500: '#3D47E8',
+  neutral600: '#2C3A5D',
+  neutral700: '#0F172A',
+  neutral800: '#0D1220',
+  neutral900: '#000000',
 
-  primary100: "#F4E0D9",
-  primary200: "#E8C1B4",
-  primary300: "#DDA28E",
-  primary400: "#D28468",
-  primary500: "#C76542",
-  primary600: "#A54F31",
+  primary100: '#AAB4D0',
+  primary200: '#7F8CA0',
+  primary300: '#556680',
+  primary400: '#3D47E8',
+  primary500: '#3D47E8',
+  primary600: '#312E58',
 
-  secondary100: "#DCDDE9",
-  secondary200: "#BCC0D6",
-  secondary300: "#9196B9",
-  secondary400: "#626894",
-  secondary500: "#41476E",
+  secondary100: '#BCC0D6',
+  secondary200: '#9196B9',
+  secondary300: '#626894',
+  secondary400: '#41476E',
+  secondary500: '#1E293B',
 
-  accent100: "#FFEED4",
-  accent200: "#FFE1B2",
-  accent300: "#FDD495",
-  accent400: "#FBC878",
-  accent500: "#FFBB50",
+  accent100: '#CDD6F4',
+  accent200: '#B2BDDB',
+  accent300: '#979FC9',
+  accent400: '#7C82B8',
+  accent500: '#3D47E8',
 
-  angry100: "#F2D6CD",
-  angry500: "#C03403",
+  angry100: '#F2D6CD',
+  angry500: '#C03403',
 
-  overlay20: "rgba(25, 16, 21, 0.2)",
-  overlay50: "rgba(25, 16, 21, 0.5)",
-} as const
+  warning100: '#FFF2E0',
+  warning500: '#F49224',
+
+  overlay20: 'rgba(61, 71, 232, 0.2)',
+  overlay50: 'rgba(61, 71, 232, 0.5)'
+} as const;
 
 export const colors = {
   /**
@@ -47,7 +48,7 @@ export const colors = {
   /**
    * A helper for making something see-thru.
    */
-  transparent: "rgba(0, 0, 0, 0)",
+  transparent: 'rgba(0, 0, 0, 0)',
   /**
    * The default text color in many components.
    */
@@ -80,5 +81,5 @@ export const colors = {
    * Error Background.
    *
    */
-  errorBackground: palette.angry100,
-}
+  errorBackground: palette.angry100
+};
