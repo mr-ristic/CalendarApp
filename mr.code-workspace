@@ -1,0 +1,38 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "workbench.editor.enablePreview": false,
+    "prettier.jsxSingleQuote": true,
+    "prettier.singleQuote": true,
+    "prettier.semi": false,
+    "prettier.trailingComma": "none",
+    "prettier.arrowParens": "always",
+    "emeraldwalk.runonsave": {
+      "commands": [
+        {
+          "match": ".*",
+          "isAsync": true,
+          "cmd": "bash scripts/copy-dist.sh"
+        }
+      ]
+    },
+    "java.configuration.updateBuildConfiguration": "interactive"
+  },
+  "extensions": {
+    "recommendations": [
+      "esbenp.prettier-vscode",
+      "emeraldwalk.runonsave",
+      "dbaeumer.vscode-eslint",
+      "GitHub.copilot",
+      "Gruntfuggly.todo-tree",
+      "atlassian.atlascode"
+    ],
+    "unwantedRecommendations": []
+  }
+}
