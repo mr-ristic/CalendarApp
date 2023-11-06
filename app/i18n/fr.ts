@@ -34,6 +34,10 @@ const fr: Translations = {
     title: 'Calendar',
     body: 'Cooming soon!'
   },
+  shopScreen: {
+    title: 'Shop',
+    body: 'Cooming soon!'
+  },
   chatScreen: {
     title: 'Chat',
     body: 'Cooming soon!'
