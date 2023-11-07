@@ -94,14 +94,14 @@ export const iconRegistry = {
   ladybug: require('../../assets/icons/ladybug.png'),
   lock: require('../../assets/icons/lock.png'),
   menu: require('../../assets/icons/menu.png'),
-  more: require('../../assets/icons/more.svg'),
+  more: require('../../assets/icons/more.png'),
   settings: require('../../assets/icons/settings.png'),
   view: require('../../assets/icons/view.png'),
   x: require('../../assets/icons/x.png'),
-  calendar: require('../../assets/icons/calendar.svg'),
-  home: require('../../assets/icons/home.svg'),
-  chat: require('../../assets/icons/message.svg'),
-  shop: require('../../assets/icons/shop.svg')
+  calendar: require('../../assets/icons/calendar.png'),
+  home: require('../../assets/icons/home.png'),
+  chat: require('../../assets/icons/message.png'),
+  shop: require('../../assets/icons/shop.png')
 };
 
 const $imageStyleBase: ImageStyle = {
