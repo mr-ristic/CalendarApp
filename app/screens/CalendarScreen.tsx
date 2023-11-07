@@ -1,26 +1,23 @@
-import React, { FC } from "react"
-import { observer } from "mobx-react-lite"
-import { ViewStyle } from "react-native"
-import { AppStackScreenProps } from "app/navigators"
-import { Screen, Text } from "app/components"
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "app/models"
+import React, { FC } from 'react';
+import { observer } from 'mobx-react-lite';
+import { ViewStyle } from 'react-native';
+import { Screen, Text } from 'app/components';
+import { MainTabScreenProps } from 'app/navigators/types';
+import { colors } from 'app/theme';
 
-interface CalendarScreenProps extends AppStackScreenProps<"Calendar"> {}
-
-export const CalendarScreen: FC<CalendarScreenProps> = observer(function CalendarScreen() {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-
-  // Pull in navigation via hook
-  // const navigation = useNavigation()
-  return (
-    <Screen style={$root} preset="scroll">
-      <Text text="calendar" />
-    </Screen>
-  )
-})
+export const CalendarScreen: FC<MainTabScreenProps<'Calendar'>> = observer(
+  function CalendarScreen() {
+    return (
+      <Screen style={$root} preset="fixed">
+        <Text text="calendar" />
+      </Screen>
+    );
+  }
+);
 
 const $root: ViewStyle = {
   flex: 1,
-}
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: colors.backgroundBody
+};

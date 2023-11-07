@@ -1,5 +1,5 @@
 const palette: Record<string, string> = {
-  neutral100: '#94A3B8',
+  neutral100: '#FFFFFF',
   neutral200: '#64748B',
   neutral300: '#475569',
   neutral400: '#1E293B',
@@ -16,7 +16,7 @@ const palette: Record<string, string> = {
   primary500: '#3D47E8',
   primary600: '#312E58',
 
-  secondary100: '#BCC0D6',
+  secondary100: '#94A3B8',
   secondary200: '#9196B9',
   secondary300: '#626894',
   secondary400: '#41476E',
@@ -52,7 +52,7 @@ export const colors = {
   /**
    * The default text color in many components.
    */
-  text: palette.neutral800,
+  text: palette.secondary100,
   /**
    * Secondary text information.
    */
@@ -60,7 +60,11 @@ export const colors = {
   /**
    * The default color of the screen background.
    */
-  background: palette.neutral200,
+  background: palette.secondary500,
+  /**
+   * The default color of the screen body.
+   */
+  backgroundBody: palette.neutral700,
   /**
    * The default border color.
    */
@@ -68,7 +72,7 @@ export const colors = {
   /**
    * The main tinting color.
    */
-  tint: palette.primary500,
+  tint: palette.neutral100,
   /**
    * A subtle color used for lines.
    */

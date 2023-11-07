@@ -1,26 +1,22 @@
-import React, { FC } from "react"
-import { observer } from "mobx-react-lite"
-import { ViewStyle } from "react-native"
-import { AppStackScreenProps } from "app/navigators"
-import { Screen, Text } from "app/components"
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "app/models"
+import React, { FC } from 'react';
+import { observer } from 'mobx-react-lite';
+import { ViewStyle } from 'react-native';
+import { MainTabScreenProps } from 'app/navigators/types';
+import { Screen, Text } from 'app/components';
+import { colors } from 'app/theme';
 
-interface HomeScreenProps extends AppStackScreenProps<"Home"> {}
-
-export const HomeScreen: FC<HomeScreenProps> = observer(function HomeScreen() {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-
-  // Pull in navigation via hook
-  // const navigation = useNavigation()
+export const HomeScreen: FC<MainTabScreenProps<'Home'>> = observer(function HomeScreen() {
   return (
-    <Screen style={$root} preset="scroll">
-      <Text text="home" />
+    <Screen style={$root} preset="fixed">
+      <Text tx="homeScreen.title" />
+      <Text tx="homeScreen.body" />
     </Screen>
-  )
-})
+  );
+});
 
 const $root: ViewStyle = {
   flex: 1,
-}
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: colors.backgroundBody
+};
