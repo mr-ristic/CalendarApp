@@ -10,7 +10,7 @@ export const spacing = {
   lg: 24,
   xl: 32,
   xxl: 48,
-  xxxl: 64,
-} as const
+  xxxl: 64
+} as const;
 
-export type Spacing = keyof typeof spacing
+export type Spacing = keyof typeof spacing;
