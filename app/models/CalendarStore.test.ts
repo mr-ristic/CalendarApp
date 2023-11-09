@@ -41,4 +41,9 @@ describe('CalendarStore test', () => {
 
     expect(calendarStore.selectedUser?.id).toBe(mockUsers.data[7].id);
   });
+
+  it('should select date and filter dates', () => {
+    calendarStore.selectDate(mockEvents.data[11].date);
+    expect(calendarStore.getEventsMapForSelectedDate.length).toBe(31);
+  });
 });

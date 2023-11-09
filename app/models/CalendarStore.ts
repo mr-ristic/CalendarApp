@@ -13,7 +13,8 @@ export const CalendarStoreModel = types
   .props({
     users: types.optional(types.array(UserModel), []),
     events: types.optional(types.array(EventModel), []),
-    selectedUser: types.maybeNull(types.reference(UserModel))
+    selectedUser: types.maybeNull(types.reference(UserModel)),
+    selectedDate: types.maybeNull(types.string)
   })
   .actions(withSetPropAction)
   .views((self) => ({
@@ -35,7 +36,12 @@ export const CalendarStoreModel = types
       return self.users.some((user) => user.id === userId);
     }
   }))
-
+  .views((self) => ({
+    get getEventsMapForSelectedDate() {
+      if (self.selectedDate) return self.getEventsMap[self.selectedDate];
+      return self.getEventsMap;
+    }
+  }))
   .actions((self) => ({
     async getUsers() {
       // TODO add a real api call
@@ -49,6 +55,9 @@ export const CalendarStoreModel = types
     },
     selectUser(userId: number) {
       if (self.hasUser(userId)) self.setProp('selectedUser', userId);
+    },
+    selectDate(date: string) {
+      self.setProp('selectedDate', date);
     }
   }));
 
