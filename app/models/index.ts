@@ -4,3 +4,4 @@ export * from './helpers/useStores';
 export * from './helpers/setupRootStore';
 export * from "./User"
 export * from "./Event"
+export * from "./CalendarStore"
