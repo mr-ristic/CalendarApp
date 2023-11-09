@@ -2,7 +2,13 @@ import { Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';
 import { withSetPropAction } from './helpers/withSetPropAction';
 
 /**
- * Model description here for TypeScript hints.
+ * UserModel represents a user with personal information.
+ * @property {number} id - The unique identifier for a user.
+ * @property {string} firstName - The user's first name.
+ * @property {string} lastName - The user's last name.
+ * @property {string} email - The user's email address.
+ * @property {string} avatar - The URL to the user's avatar image.
+ * @property {string} timezone - The user's timezone.
  */
 export const UserModel = types
   .model('User')

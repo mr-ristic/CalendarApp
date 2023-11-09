@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventModel test should create an instance of a model  1`] = `
+{
+  "date": "2023-11-05",
+  "endTime": "19:05",
+  "id": 67,
+  "isAllDay": false,
+  "location": "Lokatadho",
+  "startTime": "7:44",
+  "title": "Musgrave Airport",
+  "userId": 15,
+}
+`;
