@@ -1,8 +1,9 @@
-import { Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';
+import { Instance, getSnapshot, SnapshotOut, SnapshotIn, types } from 'mobx-state-tree';
 import { withSetPropAction } from './helpers/withSetPropAction';
 import { UserModel } from './User';
-import { EventModel } from './Event';
+import { EventModel, Event } from './Event';
 import mockUsers from '../../test/mockUsers';
+import mockEvents from '../../test/mockEvents';
 
 /**
  * Model description here for TypeScript hints.
@@ -11,15 +12,36 @@ export const CalendarStoreModel = types
   .model('CalendarStore')
   .props({
     users: types.optional(types.array(UserModel), []),
-    events: types.optional(types.map(EventModel), {})
+    events: types.optional(types.array(EventModel), [])
   })
   .actions(withSetPropAction)
-  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .views((self) => ({
+    get getEventsMap() {
+      return self.events.reduce(
+        (accumulator: { [key: string]: SnapshotOut<Event>[] }, currentEvent) => {
+          const { date } = currentEvent;
+          if (!accumulator[date]) {
+            accumulator[date] = [];
+          }
+          const eventSnapshot = getSnapshot(currentEvent);
+          accumulator[date].push(eventSnapshot);
+          return accumulator;
+        },
+        {} as { [key: string]: SnapshotOut<Event>[] }
+      );
+    }
+  }))
+
   .actions((self) => ({
     async getUsers() {
       // TODO add a real api call
       const response = mockUsers.data;
       self.setProp('users', response);
+    },
+    async getEvents() {
+      // TODO: Add a real API call here
+      const response = mockEvents.data;
+      self.setProp('events', response);
     }
   }));
 
