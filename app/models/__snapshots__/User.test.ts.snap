@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserModel test should create an instance of a model  1`] = `
+{
+  "avatar": "https://robohash.org/dictaaliquamquidem.png?size=50x50&set=set1",
+  "email": "rloddon6@w3.org",
+  "firstName": "Rita",
+  "id": 7,
+  "lastName": "Loddon",
+  "timezone": "Europe/Warsaw",
+}
+`;
