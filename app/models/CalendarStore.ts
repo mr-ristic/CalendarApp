@@ -12,7 +12,8 @@ export const CalendarStoreModel = types
   .model('CalendarStore')
   .props({
     users: types.optional(types.array(UserModel), []),
-    events: types.optional(types.array(EventModel), [])
+    events: types.optional(types.array(EventModel), []),
+    selectedUser: types.maybeNull(types.reference(UserModel))
   })
   .actions(withSetPropAction)
   .views((self) => ({
@@ -29,6 +30,9 @@ export const CalendarStoreModel = types
         },
         {} as { [key: string]: SnapshotOut<Event>[] }
       );
+    },
+    hasUser(userId: number) {
+      return self.users.some((user) => user.id === userId);
     }
   }))
 
@@ -42,6 +46,9 @@ export const CalendarStoreModel = types
       // TODO: Add a real API call here
       const response = mockEvents.data;
       self.setProp('events', response);
+    },
+    selectUser(userId: number) {
+      if (self.hasUser(userId)) self.setProp('selectedUser', userId);
     }
   }));
 
