@@ -11,3 +11,5 @@ export * from './TextField';
 export * from './Toggle';
 export * from './EmptyState';
 export * from "./CalendarDay"
+export * from "./UserCard"
+export * from "./UserList"

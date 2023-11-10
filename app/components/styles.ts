@@ -36,3 +36,39 @@ export const NotificationText = styled.Text`
   color: ${colors.tint};
   font-size: 10px;
 `;
+
+export const UserContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  height: 55px;
+  padding: 0px 16px;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+export const SelectedUserContainer = styled(UserContainer)`
+  background: ${colors.backgroundBody};
+`;
+
+export const Avatar = styled.Image`
+  width: 40px;
+  height: 40px;
+  border-radius: 25px;
+`;
+
+export const UserName = styled.Text`
+  /* margin-left: 10px; */
+  color: ${colors.tint};
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 55px;
+  margin-left: 8px;
+`;
+
+export const UserSlider = styled.ScrollView`
+  margin-top: 30px;
+  background: red;
+  background: ${colors.background};
+  max-height: 56px;
+  flex: 1;
+`;

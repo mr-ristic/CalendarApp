@@ -1,8 +1,8 @@
 import React, { FC, useCallback, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { ViewStyle, View } from 'react-native';
+import { ViewStyle } from 'react-native';
 import { CalendarProvider, ExpandableCalendar } from 'react-native-calendars';
-import { Screen, CalendarDay } from 'app/components';
+import { Screen, CalendarDay, UserList } from 'app/components';
 import { MainTabScreenProps } from 'app/navigators/types';
 import { colors } from 'app/theme';
 import { HeaderText, HeaderWrapper } from './styles';
@@ -12,11 +12,21 @@ import { formatDate } from 'app/utils/formatDate';
 export const CalendarScreen: FC<MainTabScreenProps<'Calendar'>> = observer(
   function CalendarScreen() {
     const {
-      calendarStore: { selectDate, selectedDate, getMarkedMap, getEvents }
+      calendarStore: {
+        selectDate,
+        selectedDate,
+        getMarkedMap,
+        getEvents,
+        getUsersList,
+        getUsers,
+        selectedUser,
+        selectUser
+      }
     } = useStores();
 
     useEffect(() => {
       // TODO Add loading state when using real aPi
+      getUsers();
       getEvents();
     }, []);
 
@@ -79,7 +89,7 @@ export const CalendarScreen: FC<MainTabScreenProps<'Calendar'>> = observer(
             theme={customTheme}
             // disablePan={true}
           />
-          <View></View>
+          <UserList users={getUsersList} selectedUser={selectedUser} selectUser={selectUser} />
         </CalendarProvider>
       </Screen>
     );
