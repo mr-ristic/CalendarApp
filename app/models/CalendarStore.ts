@@ -48,7 +48,12 @@ export const CalendarStoreModel = types
     get getEventsMap() {
       return self.events.reduce(
         (accumulator: { [key: string]: SnapshotOut<Event>[] }, currentEvent) => {
+          // Check if there's a selected user and if the current event belongs to them
+          if (self.selectedUser && currentEvent.userId !== self.selectedUser) {
+            return accumulator;
+          }
           const { date } = currentEvent;
+
           if (!accumulator[date]) {
             accumulator[date] = [];
           }
@@ -146,8 +151,8 @@ export const CalendarStoreModel = types
 
       self.setProp('events', response);
     },
-    selectUser(userId: number) {
-      if (self.hasUser(userId)) self.setProp('selectedUser', userId);
+    selectUser(userId: number | null) {
+      self.setProp('selectedUser', userId);
     },
     selectDate(date: string) {
       self.setProp('selectedDate', date);

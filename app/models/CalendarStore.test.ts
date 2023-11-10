@@ -24,14 +24,14 @@ describe('CalendarStore test', () => {
   });
 
   it('should find and get user from event user id', async () => {
-    await calendarStore.getEvents();
+    calendarStore.getEvents();
     expect(calendarStore.findUser(calendarStore.events[0].userId.id)).toBe(
       calendarStore.events[0].userId
     );
   });
 
   it('should get evenets and set it the map', async () => {
-    await calendarStore.getEvents();
+    calendarStore.getEvents();
 
     expect(calendarStore.events.length).toBe(1774);
     expect(calendarStore.getEventsMap['2023-11-03'].length).toBe(71);
@@ -44,6 +44,7 @@ describe('CalendarStore test', () => {
   });
 
   it('should select date and filter dates', () => {
+    calendarStore.selectUser(null);
     calendarStore.selectDate(mockEvents.data[11].date);
     expect(calendarStore.getEventsMapForSelectedDate.length).toBe(55);
   });
@@ -112,5 +113,12 @@ describe('CalendarStore test', () => {
     calendarStore.selectUser(11);
     expect(calendarStore.getUsersList.find((user) => user.id === 11)?.isSelected).toBe(true);
     expect(calendarStore.getUsersList.find((user) => user.id === 12)?.isSelected).toBe(false);
+  });
+
+  it('should test filtering of events per user selected', () => {
+    calendarStore.getEvents();
+    calendarStore.selectUser(18);
+    expect(calendarStore.getUsersList.find((user) => user.id === 18)?.isSelected).toBe(true);
+    expect(calendarStore.getEventsMap['2023-11-25'].length).toBe(5);
   });
 });
