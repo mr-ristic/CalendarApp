@@ -18,6 +18,7 @@ import {
 } from '../utils/formatDate';
 import { MarkingProps } from 'react-native-calendars/src/calendar/day/marking';
 import { MarkedDates } from 'react-native-calendars/src/types';
+import { UserProps } from 'app/components/types';
 
 /**
  * Model description here for TypeScript hints.
@@ -79,6 +80,15 @@ export const CalendarStoreModel = types
       }
 
       return markedMap;
+    },
+    get getUsersList(): UserProps[] {
+      return self.users.map(({ id, ...rest }) => {
+        return {
+          id,
+          isSelected: id === self.selectedUser?.id,
+          ...rest
+        };
+      });
     }
   }))
   .actions((self) => ({

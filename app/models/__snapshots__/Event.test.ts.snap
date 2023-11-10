@@ -7,7 +7,7 @@ exports[`EventModel test should create an instance of a model  1`] = `
   "id": 67,
   "isAllDay": false,
   "location": "Lokatadho",
-  "startTime": "7:44",
+  "startTime": "07:44",
   "title": "Musgrave Airport",
   "userId": 15,
 }

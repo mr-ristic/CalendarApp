@@ -107,4 +107,10 @@ describe('CalendarStore test', () => {
     expect(calendarStore.getMarkedMap['2023-11-13'].marked).toBe(true);
     expect(calendarStore.getMarkedMap['2023-11-13'].activeOpacity).toBe(undefined);
   });
+
+  it('should test getUsersList', () => {
+    calendarStore.selectUser(11);
+    expect(calendarStore.getUsersList.find((user) => user.id === 11)?.isSelected).toBe(true);
+    expect(calendarStore.getUsersList.find((user) => user.id === 12)?.isSelected).toBe(false);
+  });
 });
