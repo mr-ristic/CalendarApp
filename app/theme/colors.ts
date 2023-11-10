@@ -15,6 +15,7 @@ const palette: Record<string, string> = {
   primary400: '#3D47E8',
   primary500: '#3D47E8',
   primary600: '#312E58',
+  primary700: '#334155',
 
   secondary100: '#94A3B8',
   secondary200: '#9196B9',
