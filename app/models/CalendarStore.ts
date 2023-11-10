@@ -16,6 +16,8 @@ import {
   formatDateObject,
   addDayAndFormatDate
 } from '../utils/formatDate';
+import { MarkingProps } from 'react-native-calendars/src/calendar/day/marking';
+import { MarkedDates } from 'react-native-calendars/src/types';
 
 /**
  * Model description here for TypeScript hints.
@@ -58,6 +60,25 @@ export const CalendarStoreModel = types
     },
     get getEventsMapForSelectedDate() {
       return this.getEventsMap[self.selectedDate];
+    },
+    get getMarkedMap(): MarkedDates {
+      const eventsMap = this.getEventsMap;
+      const markedMap: MarkedDates = {};
+
+      for (const [date, events] of Object.entries(eventsMap)) {
+        const markedProps: MarkingProps = {
+          marked: true
+        };
+        if (date === formatDateObject(new Date())) markedProps.today = true;
+        if (date === self.selectedDate) {
+          markedProps.selected = true;
+          // hack till we fork the lib and use opacity as nuber of events
+          markedProps.activeOpacity = events.length;
+        }
+        markedMap[date] = markedProps;
+      }
+
+      return markedMap;
     }
   }))
   .actions((self) => ({

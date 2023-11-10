@@ -96,4 +96,15 @@ describe('CalendarStore test', () => {
       '2023-11-14'
     );
   });
+
+  it('should test marked map', () => {
+    calendarStore.selectDate('2023-11-03');
+    expect(calendarStore.getMarkedMap['2023-11-03'].selected).toBe(true);
+    expect(calendarStore.getMarkedMap['2023-11-03'].marked).toBe(true);
+    expect(calendarStore.getMarkedMap['2023-11-03'].activeOpacity).toBe(71);
+
+    expect(calendarStore.getMarkedMap['2023-11-13'].selected).toBe(undefined);
+    expect(calendarStore.getMarkedMap['2023-11-13'].marked).toBe(true);
+    expect(calendarStore.getMarkedMap['2023-11-13'].activeOpacity).toBe(undefined);
+  });
 });
