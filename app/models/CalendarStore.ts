@@ -1,9 +1,21 @@
-import { Instance, getSnapshot, SnapshotOut, SnapshotIn, types } from 'mobx-state-tree';
+import {
+  Instance,
+  getSnapshot,
+  SnapshotOut,
+  SnapshotIn,
+  types,
+  ReferenceIdentifier
+} from 'mobx-state-tree';
 import { withSetPropAction } from './helpers/withSetPropAction';
 import { UserModel } from './User';
-import { EventModel, Event } from './Event';
+import { EventModel, Event, EventSnapshotIn } from './Event';
 import mockUsers from '../../test/mockUsers';
 import mockEvents from '../../test/mockEvents';
+import {
+  convertEventTimesToTimeZone,
+  formatDateObject,
+  addDayAndFormatDate
+} from '../utils/formatDate';
 
 /**
  * Model description here for TypeScript hints.
@@ -14,9 +26,21 @@ export const CalendarStoreModel = types
     users: types.optional(types.array(UserModel), []),
     events: types.optional(types.array(EventModel), []),
     selectedUser: types.maybeNull(types.reference(UserModel)),
-    selectedDate: types.maybeNull(types.string)
+    selectedDate: types.optional(types.string, formatDateObject(new Date())),
+    timzeone: 'Europe/Belgrade'
   })
   .actions(withSetPropAction)
+  .views((self) => ({
+    hasUser(userId: number) {
+      return self.users.some((user) => user.id === userId);
+    },
+    findUser(userId: ReferenceIdentifier) {
+      return self.users.find((user) => {
+        if (user.id === userId) return user;
+        return null;
+      });
+    }
+  }))
   .views((self) => ({
     get getEventsMap() {
       return self.events.reduce(
@@ -32,14 +56,8 @@ export const CalendarStoreModel = types
         {} as { [key: string]: SnapshotOut<Event>[] }
       );
     },
-    hasUser(userId: number) {
-      return self.users.some((user) => user.id === userId);
-    }
-  }))
-  .views((self) => ({
     get getEventsMapForSelectedDate() {
-      if (self.selectedDate) return self.getEventsMap[self.selectedDate];
-      return self.getEventsMap;
+      return this.getEventsMap[self.selectedDate];
     }
   }))
   .actions((self) => ({
@@ -48,9 +66,53 @@ export const CalendarStoreModel = types
       const response = mockUsers.data;
       self.setProp('users', response);
     },
-    async getEvents() {
+    getEvents() {
       // TODO: Add a real API call here
-      const response = mockEvents.data;
+      const response: EventSnapshotIn[] = [];
+      mockEvents.data.forEach((event) => {
+        const user = self.findUser(event.userId);
+        const userTimezone = user ? user.timezone : 'UTC';
+
+        const { convertedDate, convertedStartTime, convertedEndTime } = convertEventTimesToTimeZone(
+          event.date,
+          event.startTime,
+          event.endTime,
+          userTimezone,
+          self.timzeone
+        );
+
+        let dateBeforeMidghnight = convertedDate;
+        let dateAfterMidghnight = event.date;
+
+        if (convertedDate === event.date) {
+          dateBeforeMidghnight = event.date;
+          dateAfterMidghnight = addDayAndFormatDate(event.date, 1);
+        }
+        if (Number(convertedStartTime.slice(0, 2)) > Number(convertedEndTime.slice(0, 2))) {
+          response.push(
+            {
+              ...event,
+              startTime: convertedStartTime,
+              endTime: '23:59',
+              date: dateBeforeMidghnight
+            },
+            {
+              ...event,
+              startTime: '00:00',
+              endTime: convertedEndTime,
+              date: dateAfterMidghnight
+            }
+          );
+        }
+
+        response.push({
+          ...event,
+          date: convertedDate,
+          startTime: convertedStartTime,
+          endTime: convertedEndTime
+        });
+      });
+
       self.setProp('events', response);
     },
     selectUser(userId: number) {
