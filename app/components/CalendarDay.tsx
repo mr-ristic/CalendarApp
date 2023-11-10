@@ -21,11 +21,14 @@ export const CalendarDay = React.memo(({ date, marking, onDayPress }: CalendarDa
       ? colors.palette.primary700
       : 'transparent';
 
+  let showNotification = !!(marking && (marking.selected || marking.marked));
+  if (marking?.selected && !marking?.activeOpacity) showNotification = false;
+
   return (
     <DayButton $background={backgroundColor} onPress={() => onDayPress(date.dateString)}>
-      {marking && (
-        <Notification $selected={Boolean(marking.selected)}>
-          {marking.selected && <NotificationText>{marking.activeOpacity}</NotificationText>}
+      {showNotification && (
+        <Notification $selected={!!marking?.selected}>
+          {marking?.selected && <NotificationText>{marking?.activeOpacity}</NotificationText>}
         </Notification>
       )}
       <DayButtonText $marked={Boolean(marking && marking.selected)}>{date.day}</DayButtonText>

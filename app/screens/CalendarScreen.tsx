@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, { FC, useCallback, useEffect, useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
 import { ViewStyle } from 'react-native';
 import { CalendarProvider, ExpandableCalendar } from 'react-native-calendars';
@@ -52,6 +52,18 @@ export const CalendarScreen: FC<MainTabScreenProps<'Calendar'>> = observer(
       selectDate(date);
     };
 
+    const marked = useMemo(() => {
+      if (!getMarkedMap[selectedDate]) {
+        return {
+          ...getMarkedMap,
+          [selectedDate]: {
+            selected: true
+          }
+        };
+      }
+      return getMarkedMap;
+    }, [getMarkedMap, selectedDate]);
+
     const customTheme = {
       'stylesheet.calendar.header': {
         week: {
@@ -80,7 +92,7 @@ export const CalendarScreen: FC<MainTabScreenProps<'Calendar'>> = observer(
             hideKnob={true}
             firstDay={1}
             allowShadow={false}
-            markedDates={getMarkedMap}
+            markedDates={marked}
             markingType="custom"
             // Add or override any props for the ExpandableCalendar
             dayComponent={dayComponent}
