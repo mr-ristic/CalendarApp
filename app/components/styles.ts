@@ -23,7 +23,6 @@ export const Notification = styled.View<{ $selected: boolean }>`
   position: absolute;
   right: ${(props) => (props.$selected ? '-4px' : '4px')};
   top: ${(props) => (props.$selected ? '-4px' : '4px')};
-  background: red;
   border-radius: 50%;
   width: ${(props) => (props.$selected ? '16px' : '6px')};
   height: ${(props) => (props.$selected ? '16px' : '6px')};
@@ -32,12 +31,21 @@ export const Notification = styled.View<{ $selected: boolean }>`
   align-items: center;
 `;
 
+export const UserNotification = styled(Notification)`
+  background: ${colors.background};
+  right: 2.5px;
+  top: auto;
+  bottom: -6px;
+`;
+
 export const NotificationText = styled.Text`
   color: ${colors.tint};
   font-size: 10px;
 `;
 
 export const UserContainer = styled.View`
+  border-top-color: ${colors.headerBorder};
+  border-top-width: 1px;
   flex-direction: row;
   align-items: center;
   height: 55px;
@@ -49,6 +57,10 @@ export const UserContainer = styled.View`
 export const SelectedUserContainer = styled(UserContainer)`
   background: ${colors.backgroundBody};
 `;
+export const AvatarWrapper = styled.View`
+  width: 40px;
+  height: 40px;
+`;
 
 export const Avatar = styled.Image`
   width: 40px;
@@ -57,7 +69,6 @@ export const Avatar = styled.Image`
 `;
 
 export const UserName = styled.Text`
-  /* margin-left: 10px; */
   color: ${colors.tint};
   font-size: 14px;
   font-weight: 600;
@@ -66,9 +77,71 @@ export const UserName = styled.Text`
 `;
 
 export const UserSlider = styled.ScrollView`
-  margin-top: 30px;
+  padding-top: 18px;
   background: red;
   background: ${colors.background};
-  max-height: 56px;
+  max-height: 74px;
+  min-height: 74px;
   flex: 1;
+  z-index: -1;
+`;
+
+export const EventWrapper = styled.View<{ $top: number; $height: number }>`
+  position: absolute;
+  left: 90px;
+  top: ${(props) => `${props.$top}px`};
+  height: ${(props) => `${props.$height}px`};
+  width: 70%;
+  padding: 8px 8px 8px 16px;
+  align-items: flex-start;
+  border-radius: 12px;
+  border: 1px solid ${colors.border};
+  background-color: ${colors.background};
+`;
+
+export const EventTitle = styled.Text`
+  color: ${colors.tint};
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  margin-bottom: 10px;
+`;
+export const EventTime = styled.Text`
+  color: ${colors.text};
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+`;
+
+export const TimeLineContainer = styled.View`
+  flex: 1;
+`;
+
+export const TimeLineGrid = styled.ScrollView`
+  position: relative;
+`;
+
+export const TimeLineSlot = styled.View`
+  flex-direction: row;
+  align-items: center;
+  height: 50px;
+  font-size: 12px;
+  margin-left: 0;
+`;
+
+export const TimeLine = styled.View`
+  background-color: ${colors.background};
+  flex: 1;
+  height: 1px;
+`;
+
+export const TimeLineText = styled.Text`
+  background-color: ${colors.backgroundBody};
+  margin-left: 26px;
+  position: absolute;
+  bottom: -8px;
+  z-index: 5;
+  padding-horizontal: 8px;
+  color: ${colors.palette.neutral200};
 `;

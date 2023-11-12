@@ -6,6 +6,7 @@ export interface UserProps {
   firstName: string;
   lastName?: string;
   avatar: string;
+  count?: number;
   onSelect?: (id: number) => void;
 }
 

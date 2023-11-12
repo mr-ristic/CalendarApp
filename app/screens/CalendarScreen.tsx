@@ -1,8 +1,8 @@
 import React, { FC, useCallback, useEffect, useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
 import { ViewStyle } from 'react-native';
-import { CalendarProvider, ExpandableCalendar } from 'react-native-calendars';
-import { Screen, CalendarDay, UserList } from 'app/components';
+import { CalendarProvider, ExpandableCalendar, TimelineList } from 'react-native-calendars';
+import { Screen, CalendarDay, UserList, TimeLineItem } from 'app/components';
 import { MainTabScreenProps } from 'app/navigators/types';
 import { colors } from 'app/theme';
 import { HeaderText, HeaderWrapper } from './styles';
@@ -20,7 +20,8 @@ export const CalendarScreen: FC<MainTabScreenProps<'Calendar'>> = observer(
         getUsersList,
         getUsers,
         selectedUser,
-        selectUser
+        selectUser,
+        getEventsMap
       }
     } = useStores();
 
@@ -28,6 +29,7 @@ export const CalendarScreen: FC<MainTabScreenProps<'Calendar'>> = observer(
       // TODO Add loading state when using real aPi
       getUsers();
       getEvents();
+      selectUser(1);
     }, []);
 
     const calendarHeader = (
@@ -65,14 +67,6 @@ export const CalendarScreen: FC<MainTabScreenProps<'Calendar'>> = observer(
     }, [getMarkedMap, selectedDate]);
 
     const customTheme = {
-      'stylesheet.calendar.header': {
-        week: {
-          marginTop: 7,
-          marginBottom: -4,
-          flexDirection: 'row',
-          justifyContent: 'space-around'
-        }
-      },
       textDayHeaderFontSize: 12,
       calendarBackground: colors.background
     };
@@ -86,22 +80,24 @@ export const CalendarScreen: FC<MainTabScreenProps<'Calendar'>> = observer(
           disabledOpacity={0.6}
         >
           <ExpandableCalendar
-            calendarStyle={{
-              paddingBottom: 12
-            }}
             hideKnob={true}
             firstDay={1}
             allowShadow={false}
             markedDates={marked}
             markingType="custom"
-            // Add or override any props for the ExpandableCalendar
             dayComponent={dayComponent}
             hideArrows={true}
             customHeaderTitle={calendarHeader}
             theme={customTheme}
-            // disablePan={true}
           />
           <UserList users={getUsersList} selectedUser={selectedUser} selectUser={selectUser} />
+          <TimelineList
+            events={getEventsMap}
+            renderItem={(props) => <TimeLineItem item={props} />}
+            showNowIndicator
+            scrollToFirst
+            initialTime={{ hour: 9, minutes: 0 }}
+          />
         </CalendarProvider>
       </Screen>
     );
@@ -109,7 +105,7 @@ export const CalendarScreen: FC<MainTabScreenProps<'Calendar'>> = observer(
 );
 
 const $root: ViewStyle = {
-  // flex: 1,
+  flex: 1,
   backgroundColor: colors.backgroundBody,
   alignItems: 'baseline',
   width: '100%'

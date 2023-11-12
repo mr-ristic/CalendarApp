@@ -36,7 +36,8 @@ const palette: Record<string, string> = {
   warning500: '#F49224',
 
   overlay20: 'rgba(61, 71, 232, 0.2)',
-  overlay50: 'rgba(61, 71, 232, 0.5)'
+  overlay50: 'rgba(61, 71, 232, 0.5)',
+  overlay70: 'rgba(51, 65, 85, 0.60)'
 } as const;
 
 export const colors = {
@@ -86,5 +87,7 @@ export const colors = {
    * Error Background.
    *
    */
-  errorBackground: palette.angry100
+  errorBackground: palette.angry100,
+
+  headerBorder: palette.overlay70
 };

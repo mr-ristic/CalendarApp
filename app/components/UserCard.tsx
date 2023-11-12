@@ -1,6 +1,14 @@
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { Avatar, SelectedUserContainer, UserContainer, UserName } from './styles';
+import {
+  Avatar,
+  SelectedUserContainer,
+  UserContainer,
+  UserName,
+  UserNotification,
+  NotificationText,
+  AvatarWrapper
+} from './styles';
 import { UserProps } from './types';
 
 export const UserCard = React.memo(function UserCard(props: UserProps) {
@@ -9,7 +17,13 @@ export const UserCard = React.memo(function UserCard(props: UserProps) {
   return (
     <TouchableOpacity onPress={() => props.onSelect && props.onSelect(props.id)}>
       <Container>
-        <Avatar source={{ uri: props.avatar }} />
+        <AvatarWrapper>
+          <Avatar source={{ uri: props.avatar }} />
+          <UserNotification $selected={true}>
+            <NotificationText>{props.count}</NotificationText>
+          </UserNotification>
+        </AvatarWrapper>
+
         {props.isSelected && <UserName>{props.firstName}</UserName>}
       </Container>
     </TouchableOpacity>

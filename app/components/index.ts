@@ -13,3 +13,5 @@ export * from './EmptyState';
 export * from "./CalendarDay"
 export * from "./UserCard"
 export * from "./UserList"
+export * from "./TimeLineItem"
+export * from "./TimeLineEvent"
