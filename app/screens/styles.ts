@@ -24,7 +24,7 @@ export const NewEventButton = styled.TouchableOpacity<{ $bottom: string }>`
   transform: rotate(45deg);
   width: 60px;
   height: 60px;
-  border-radius: 50%;
+  border-radius: 50px;
   justify-content: center;
   align-items: center;
   z-index: 99;

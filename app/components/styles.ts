@@ -23,7 +23,7 @@ export const Notification = styled.View<{ $selected: boolean }>`
   position: absolute;
   right: ${(props) => (props.$selected ? '-4px' : '4px')};
   top: ${(props) => (props.$selected ? '-4px' : '4px')};
-  border-radius: 50%;
+  border-radius: 50px;
   width: ${(props) => (props.$selected ? '16px' : '6px')};
   height: ${(props) => (props.$selected ? '16px' : '6px')};
   background: ${colors.palette.accent500};
