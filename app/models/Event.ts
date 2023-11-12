@@ -25,9 +25,7 @@ export const EventModel = types
     isAllDay: types.boolean,
     userId: types.reference(UserModel)
   })
-  .actions(withSetPropAction)
-  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
-  .actions((self) => ({})); // eslint-disable-line @typescript-eslint/no-unused-vars
+  .actions(withSetPropAction);
 
 export interface Event extends Instance<typeof EventModel> {}
 export interface EventSnapshotOut extends SnapshotOut<typeof EventModel> {}

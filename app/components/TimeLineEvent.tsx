@@ -2,7 +2,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react-lite';
 import { Event } from 'react-native-calendars/src/timeline/EventBlock';
 import { formatDate } from '../utils/formatDate';
-import { EventWrapper, EventTime, EventTitle } from './styles';
+import { EventWrapper, EventTime, EventTitle, EventImage } from './styles';
 import { colors } from 'app/theme';
 
 export interface TimeLineEventProps {
@@ -27,6 +27,7 @@ export const TimeLineEvent = observer(function TimeLineEvent({ event }: TimeLine
       <EventTime>
         {formatDate(event.start, 'HH:mm')} - {formatDate(event.end, 'HH:mm')}
       </EventTime>
+      <EventImage source={{ uri: event.color }} />
     </EventWrapper>
   );
 });

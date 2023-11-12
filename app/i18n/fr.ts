@@ -32,7 +32,12 @@ const fr: Translations = {
   },
   calendarScreen: {
     title: 'Calendar',
-    body: 'Cooming soon!'
+    body: 'Cooming soon!',
+    cancel: 'Cancel',
+    newEventTitle: 'Wanna create a new random event?',
+    newEventMessage:
+      'This will create a new user and we will once more hack react-native-calendar props to use color prop for user image(participant) ;)',
+    newEventBtnText: 'GO GO GO!'
   },
   shopScreen: {
     title: 'Shop',

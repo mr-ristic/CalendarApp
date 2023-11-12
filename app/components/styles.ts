@@ -114,6 +114,15 @@ export const EventTime = styled.Text`
   line-height: 16px;
 `;
 
+export const EventImage = styled.Image`
+  width: 40px;
+  height: 40px;
+  border-radius: 25px;
+  position: absolute;
+  right: 8px;
+  top: 8px;
+`;
+
 export const TimeLineContainer = styled.View`
   flex: 1;
 `;

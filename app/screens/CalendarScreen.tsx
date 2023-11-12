@@ -1,13 +1,15 @@
 import React, { FC, useCallback, useEffect, useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
-import { ViewStyle } from 'react-native';
+import { Alert, ViewStyle } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CalendarProvider, ExpandableCalendar, TimelineList } from 'react-native-calendars';
-import { Screen, CalendarDay, UserList, TimeLineItem } from 'app/components';
+import { Screen, CalendarDay, UserList, TimeLineItem, Icon } from 'app/components';
 import { MainTabScreenProps } from 'app/navigators/types';
 import { colors } from 'app/theme';
-import { HeaderText, HeaderWrapper } from './styles';
+import { HeaderText, HeaderWrapper, NewEventButton } from './styles';
 import { useStores } from 'app/models';
 import { formatDate } from 'app/utils/formatDate';
+import { translate } from 'app/i18n';
 
 export const CalendarScreen: FC<MainTabScreenProps<'Calendar'>> = observer(
   function CalendarScreen() {
@@ -21,9 +23,12 @@ export const CalendarScreen: FC<MainTabScreenProps<'Calendar'>> = observer(
         getUsers,
         selectedUser,
         selectUser,
-        getEventsMap
+        getEventsMap,
+        createNewEvent
       }
     } = useStores();
+
+    const { bottom } = useSafeAreaInsets();
 
     useEffect(() => {
       // TODO Add loading state when using real aPi
@@ -71,6 +76,19 @@ export const CalendarScreen: FC<MainTabScreenProps<'Calendar'>> = observer(
       calendarBackground: colors.background
     };
 
+    const createNewLocalEvent = () => {
+      const title = translate('calendarScreen.newEventTitle');
+      const message = translate('calendarScreen.newEventMessage');
+      const actions = [
+        { text: translate('calendarScreen.cancel'), type: 'cancel' },
+        {
+          text: translate('calendarScreen.newEventBtnText'),
+          onPress: () => selectedUser && createNewEvent(selectedDate, selectedUser.id)
+        }
+      ];
+      Alert.alert(title, message, actions);
+    };
+
     return (
       <Screen style={$root} preset="fixed" safeAreaEdges={['top']}>
         <CalendarProvider
@@ -99,6 +117,10 @@ export const CalendarScreen: FC<MainTabScreenProps<'Calendar'>> = observer(
             initialTime={{ hour: 9, minutes: 0 }}
           />
         </CalendarProvider>
+
+        <NewEventButton onPress={createNewLocalEvent} $bottom={`${bottom}px`}>
+          <Icon icon="x" color="#fff" />
+        </NewEventButton>
       </Screen>
     );
   }
@@ -107,6 +129,6 @@ export const CalendarScreen: FC<MainTabScreenProps<'Calendar'>> = observer(
 const $root: ViewStyle = {
   flex: 1,
   backgroundColor: colors.backgroundBody,
-  alignItems: 'baseline',
+  alignItems: 'flex-end',
   width: '100%'
 };
