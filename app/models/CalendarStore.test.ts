@@ -103,4 +103,16 @@ describe('CalendarStore test', () => {
   it('should create snapshot', () => {
     expect(getSnapshot(calendarStore.events)).toMatchSnapshot();
   });
+
+  it('should create a new random event', async () => {
+    await calendarStore.getUsers();
+    calendarStore.getEvents();
+    calendarStore.selectDate('2023-11-03');
+    calendarStore.selectUser(1);
+
+    expect(calendarStore.events.length).toBe(1076);
+
+    calendarStore.createNewEvent('2023-11-03', 1);
+    expect(calendarStore.events.length).toBe(1077);
+  });
 });

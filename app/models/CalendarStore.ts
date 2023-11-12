@@ -14,6 +14,7 @@ import { MarkingProps } from 'react-native-calendars/src/calendar/day/marking';
 import { MarkedDates } from 'react-native-calendars/src/types';
 import { UserProps } from 'app/components/types';
 import { TimelineProps } from 'react-native-calendars';
+import { getRandomInteger } from '../utils/misc';
 
 /**
  * Model description here for TypeScript hints.
@@ -52,13 +53,15 @@ export const CalendarStoreModel = types
           if (!accumulator[date]) {
             accumulator[date] = [];
           }
-
+          // img little hack
+          const participant = self.findUser(getRandomInteger(1, 20));
           accumulator[date].push({
             id: `${currentEvent.id}`,
             start: `${currentEvent.startTime}`,
             end: `${currentEvent.endTime}`,
             title: currentEvent.title,
-            summary: currentEvent.location
+            summary: currentEvent.location,
+            color: participant?.avatar
           });
           return accumulator;
         },
@@ -160,6 +163,21 @@ export const CalendarStoreModel = types
     },
     selectDate(date: string) {
       self.setProp('selectedDate', date);
+    },
+    createNewEvent(date: string, userId: ReferenceIdentifier) {
+      const user = self.findUser(getRandomInteger(1, 20));
+      const randomStartHour = getRandomInteger(10, 23);
+      const event = EventModel.create({
+        id: getRandomInteger(1000, 10000),
+        title: `${user?.firstName} ${user?.lastName}`,
+        date,
+        startTime: `${date} ${randomStartHour}:00:00`,
+        endTime: `${date} ${randomStartHour + 1}:00:00`,
+        location: 'Belgrade',
+        isAllDay: false,
+        userId
+      });
+      self.setProp('events', [...self.events, event] as any[]);
     }
   }));
 
