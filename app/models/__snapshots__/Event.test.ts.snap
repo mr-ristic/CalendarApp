@@ -2,13 +2,13 @@
 
 exports[`EventModel test should create an instance of a model  1`] = `
 {
-  "date": "2023-11-05",
-  "endTime": "19:05",
+  "date": "2023-12-04",
+  "endTime": "2023-12-04 09:10:57",
   "id": 67,
-  "isAllDay": false,
-  "location": "Lokatadho",
-  "startTime": "07:44",
-  "title": "Musgrave Airport",
-  "userId": 15,
+  "isAllDay": true,
+  "location": "Itanhaém",
+  "startTime": "2023-12-04 07:10:57",
+  "title": "Barrow County Airport",
+  "userId": 17,
 }
 `;

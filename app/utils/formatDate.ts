@@ -1,5 +1,5 @@
 import I18n from 'i18n-js';
-import { utcToZonedTime, format as tzFormat } from 'date-fns-tz';
+import { zonedTimeToUtc, formatInTimeZone } from 'date-fns-tz';
 // Note the syntax of these imports from the date-fns library.
 // If you import with the syntax: import { format } from "date-fns" the ENTIRE library
 // will be included in your production bundle (even if you only use one function).
@@ -32,21 +32,20 @@ export const formatDateObject = (date: Date, dateFormat?: string) => {
 };
 
 export const convertEventTimesToTimeZone = (
-  date: string,
   startTime: string,
   endTime: string,
   fromTimezone: string,
   toTimezone: string
 ): { convertedDate: string; convertedStartTime: string; convertedEndTime: string } => {
-  const startTimestamp = `${date}T${startTime}`;
-  const endTimestamp = `${date}T${endTime}`;
+  const startTimestamp = `${startTime}`;
+  const endTimestamp = `${endTime}`;
 
-  const zonedStartTime = utcToZonedTime(startTimestamp, fromTimezone);
-  const zonedEndTime = utcToZonedTime(endTimestamp, fromTimezone);
+  const utcStartTime = zonedTimeToUtc(startTimestamp, fromTimezone);
+  const utcEndTime = zonedTimeToUtc(endTimestamp, fromTimezone);
 
-  const convertedStartTime = tzFormat(zonedStartTime, 'HH:mm', { timeZone: toTimezone });
-  const convertedEndTime = tzFormat(zonedEndTime, 'HH:mm', { timeZone: toTimezone });
-  const convertedDate = tzFormat(zonedStartTime, 'yyyy-MM-dd', { timeZone: toTimezone });
+  const convertedStartTime = formatInTimeZone(utcStartTime, toTimezone, 'yyyy-MM-dd HH:mm:ss');
+  const convertedEndTime = formatInTimeZone(utcEndTime, toTimezone, 'yyyy-MM-dd HH:mm:ss');
+  const convertedDate = formatInTimeZone(utcStartTime, toTimezone, 'yyyy-MM-dd');
 
   return { convertedDate, convertedStartTime, convertedEndTime };
 };

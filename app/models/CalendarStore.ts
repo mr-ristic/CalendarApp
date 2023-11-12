@@ -1,24 +1,19 @@
-import {
-  Instance,
-  getSnapshot,
-  SnapshotOut,
-  SnapshotIn,
-  types,
-  ReferenceIdentifier
-} from 'mobx-state-tree';
+import { Instance, SnapshotOut, SnapshotIn, types, ReferenceIdentifier } from 'mobx-state-tree';
 import { withSetPropAction } from './helpers/withSetPropAction';
 import { UserModel } from './User';
-import { EventModel, Event, EventSnapshotIn } from './Event';
+import { EventModel, EventSnapshotIn } from './Event';
 import mockUsers from '../../test/mockUsers';
 import mockEvents from '../../test/mockEvents';
 import {
   convertEventTimesToTimeZone,
   formatDateObject,
-  addDayAndFormatDate
+  addDayAndFormatDate,
+  formatDate
 } from '../utils/formatDate';
 import { MarkingProps } from 'react-native-calendars/src/calendar/day/marking';
 import { MarkedDates } from 'react-native-calendars/src/types';
 import { UserProps } from 'app/components/types';
+import { TimelineProps } from 'react-native-calendars';
 
 /**
  * Model description here for TypeScript hints.
@@ -47,7 +42,7 @@ export const CalendarStoreModel = types
   .views((self) => ({
     get getEventsMap() {
       return self.events.reduce(
-        (accumulator: { [key: string]: SnapshotOut<Event>[] }, currentEvent) => {
+        (accumulator: { [key: string]: SnapshotOut<TimelineProps['events']> }, currentEvent) => {
           // Check if there's a selected user and if the current event belongs to them
           if (self.selectedUser && currentEvent.userId !== self.selectedUser) {
             return accumulator;
@@ -57,11 +52,17 @@ export const CalendarStoreModel = types
           if (!accumulator[date]) {
             accumulator[date] = [];
           }
-          const eventSnapshot = getSnapshot(currentEvent);
-          accumulator[date].push(eventSnapshot);
+
+          accumulator[date].push({
+            id: `${currentEvent.id}`,
+            start: `${currentEvent.startTime}`,
+            end: `${currentEvent.endTime}`,
+            title: currentEvent.title,
+            summary: currentEvent.location
+          });
           return accumulator;
         },
-        {} as { [key: string]: SnapshotOut<Event>[] }
+        {} as { [key: string]: TimelineProps['events'] }
       );
     },
     get getEventsMapForSelectedDate() {
@@ -91,6 +92,7 @@ export const CalendarStoreModel = types
         return {
           id,
           isSelected: id === self.selectedUser?.id,
+          count: self.events.filter((event) => event.userId.id === id).length,
           ...rest
         };
       });
@@ -110,7 +112,6 @@ export const CalendarStoreModel = types
         const userTimezone = user ? user.timezone : 'UTC';
 
         const { convertedDate, convertedStartTime, convertedEndTime } = convertEventTimesToTimeZone(
-          event.date,
           event.startTime,
           event.endTime,
           userTimezone,
@@ -124,21 +125,24 @@ export const CalendarStoreModel = types
           dateBeforeMidghnight = event.date;
           dateAfterMidghnight = addDayAndFormatDate(event.date, 1);
         }
-        if (Number(convertedStartTime.slice(0, 2)) > Number(convertedEndTime.slice(0, 2))) {
+        if (
+          Number(formatDate(convertedStartTime, 'HH')) > Number(formatDate(convertedEndTime, 'HH'))
+        ) {
           response.push(
             {
               ...event,
               startTime: convertedStartTime,
-              endTime: '23:59',
+              endTime: `${dateBeforeMidghnight} 23:59:00`,
               date: dateBeforeMidghnight
             },
             {
               ...event,
-              startTime: '00:00',
+              startTime: `${dateAfterMidghnight} 00:00:00`,
               endTime: convertedEndTime,
               date: dateAfterMidghnight
             }
           );
+          return;
         }
 
         response.push({

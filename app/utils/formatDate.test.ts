@@ -5,22 +5,22 @@ const mockEvents = [
     id: 1,
     title: 'Mock Event 1',
     date: '2022-01-01',
-    startTime: '06:00',
-    endTime: '12:00'
+    startTime: '2022-01-01 06:00:00',
+    endTime: '2022-01-01 12:00:00'
   },
   {
     id: 2,
     title: 'Mock Event 2',
     date: '2022-01-02',
-    startTime: '15:00',
-    endTime: '17:00'
+    startTime: '2022-01-02 15:00:00',
+    endTime: '2022-01-02 17:00:00'
   },
   {
     id: 55,
     title: "L'AquilPreturo Airport",
     date: '2023-11-14',
-    startTime: '03:32',
-    endTime: '19:23',
+    startTime: '2023-11-14 21:32:00',
+    endTime: '2023-11-14 23:23:00',
     location: 'Kolbudy',
     userId: 13
   }
@@ -45,48 +45,46 @@ const mockUsers = [
 ];
 
 describe('convertEventTimesToTimeZone', () => {
-  it('should convert event times to the specified timezone', () => {
+  it('should convert event times to the specified timezone UTC-8 -> UTC+1 ', () => {
     const event = mockEvents[0];
     const user = mockUsers[0];
     const { convertedDate, convertedStartTime, convertedEndTime } = convertEventTimesToTimeZone(
-      event.date,
       event.startTime,
       event.endTime,
       user.timezone,
       'Europe/Belgrade'
     );
-    expect(convertedDate).toEqual('2021-12-31');
-    expect(convertedStartTime).toEqual('21:00');
-    expect(convertedEndTime).toEqual('03:00');
+    expect(convertedDate).toEqual('2022-01-01');
+    expect(convertedStartTime).toEqual('2022-01-01 15:00:00');
+    expect(convertedEndTime).toEqual('2022-01-01 21:00:00');
   });
 
-  it('should convert event times to the when end time going to new day', () => {
+  it('should convert event times from UTC+9 -> UTC+1', () => {
     const event = mockEvents[1];
     const user = mockUsers[1];
     const { convertedDate, convertedStartTime, convertedEndTime } = convertEventTimesToTimeZone(
-      event.date,
       event.startTime,
       event.endTime,
       user.timezone,
       'Europe/Belgrade'
     );
     expect(convertedDate).toEqual('2022-01-02');
-    expect(convertedStartTime).toEqual('23:00');
-    expect(convertedEndTime).toEqual('01:00');
+    expect(convertedStartTime).toEqual('2022-01-02 07:00:00');
+    expect(convertedEndTime).toEqual('2022-01-02 09:00:00');
   });
-  it('should test another date', () => {
+
+  it('should test another date UTC-6 -> UTC+1', () => {
     const event = mockEvents[2];
     const user = mockUsers[2];
     const { convertedDate, convertedStartTime, convertedEndTime } = convertEventTimesToTimeZone(
-      event.date,
       event.startTime,
       event.endTime,
       user.timezone,
       'Europe/Belgrade'
     );
-    expect(convertedDate).toEqual('2023-11-13');
-    expect(convertedStartTime).toEqual('20:32');
-    expect(convertedEndTime).toEqual('12:23');
+    expect(convertedDate).toEqual('2023-11-15');
+    expect(convertedStartTime).toEqual('2023-11-15 04:32:00');
+    expect(convertedEndTime).toEqual('2023-11-15 06:23:00');
   });
 
   it('should format dates without zero', () => {

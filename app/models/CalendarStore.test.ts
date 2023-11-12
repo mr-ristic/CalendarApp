@@ -1,6 +1,7 @@
 import mockEvents from '../../test/mockEvents';
 import mockUsers from '../../test/mockUsers';
 import { CalendarStore, CalendarStoreModel } from './CalendarStore';
+import { getSnapshot } from 'mobx-state-tree';
 
 describe('CalendarStore test', () => {
   let calendarStore: CalendarStore;
@@ -33,8 +34,8 @@ describe('CalendarStore test', () => {
   it('should get evenets and set it the map', async () => {
     calendarStore.getEvents();
 
-    expect(calendarStore.events.length).toBe(1774);
-    expect(calendarStore.getEventsMap['2023-11-03'].length).toBe(71);
+    expect(calendarStore.events.length).toBe(1076);
+    expect(calendarStore.getEventsMap['2023-11-11'].length).toBe(19);
   });
 
   it('should select user', async () => {
@@ -46,55 +47,32 @@ describe('CalendarStore test', () => {
   it('should select date and filter dates', () => {
     calendarStore.selectUser(null);
     calendarStore.selectDate(mockEvents.data[11].date);
-    expect(calendarStore.getEventsMapForSelectedDate.length).toBe(55);
+    expect(calendarStore.getEventsMapForSelectedDate.length).toBe(23);
   });
 
-  it('shoulld display time in correct time zone when split into 2', () => {
-    calendarStore.selectDate('2023-11-13');
-    //  {
-    //   id: 55,
-    //   title: "L'Aquila–Preturo Airport",
-    //   date: '2023-11-14',
-    //   startTime: '3:32',
-    //   endTime: '19:23',
-    //   location: 'Kolbudy',
-    //   isAllDay: false,
-    //   userId: 13
-    // }
-    // /{
-    //   id: 13,
-    //   firstName: 'Ax',
-    //   lastName: 'Rapps',
-    //   email: 'arappsc@aol.com',
-    //   avatar: 'https://robohash.org/voluptatemfugareiciendis.png?size=50x50&set=set1',
-    //   timezone: 'America/Regina'
-    // },
-    expect(calendarStore.getEventsMapForSelectedDate.find(({ id }) => id === 55)?.location).toBe(
-      'Kolbudy'
+  it('shoulld display time in correct time zone when split into 2 - UTC+9 -> UTC+1', () => {
+    calendarStore.selectDate('2023-11-18');
+
+    expect(calendarStore.getEventsMapForSelectedDate.find(({ id }) => id === '23')?.summary).toBe(
+      'Luchingu'
     );
-    expect(calendarStore.getEventsMapForSelectedDate.find(({ id }) => id === 55)?.startTime).toBe(
-      '20:32'
+    expect(calendarStore.getEventsMapForSelectedDate.find(({ id }) => id === '23')?.start).toBe(
+      '2023-11-18 22:25:41'
     );
-    expect(calendarStore.getEventsMapForSelectedDate.find(({ id }) => id === 55)?.endTime).toBe(
-      '23:59'
-    );
-    expect(calendarStore.getEventsMapForSelectedDate.find(({ id }) => id === 55)?.date).toBe(
-      '2023-11-13'
+    expect(calendarStore.getEventsMapForSelectedDate.find(({ id }) => id === '23')?.end).toBe(
+      '2023-11-18 23:59:00'
     );
 
-    calendarStore.selectDate('2023-11-14');
+    calendarStore.selectDate('2023-11-19');
 
-    expect(calendarStore.getEventsMapForSelectedDate.find(({ id }) => id === 55)?.location).toBe(
-      'Kolbudy'
+    expect(calendarStore.getEventsMapForSelectedDate.find(({ id }) => id === '23')?.summary).toBe(
+      'Luchingu'
     );
-    expect(calendarStore.getEventsMapForSelectedDate.find(({ id }) => id === 55)?.startTime).toBe(
-      '00:00'
+    expect(calendarStore.getEventsMapForSelectedDate.find(({ id }) => id === '23')?.start).toBe(
+      '2023-11-19 00:00:00'
     );
-    expect(calendarStore.getEventsMapForSelectedDate.find(({ id }) => id === 55)?.endTime).toBe(
-      '12:23'
-    );
-    expect(calendarStore.getEventsMapForSelectedDate.find(({ id }) => id === 55)?.date).toBe(
-      '2023-11-14'
+    expect(calendarStore.getEventsMapForSelectedDate.find(({ id }) => id === '23')?.end).toBe(
+      '2023-11-19 00:25:41'
     );
   });
 
@@ -102,7 +80,7 @@ describe('CalendarStore test', () => {
     calendarStore.selectDate('2023-11-03');
     expect(calendarStore.getMarkedMap['2023-11-03'].selected).toBe(true);
     expect(calendarStore.getMarkedMap['2023-11-03'].marked).toBe(true);
-    expect(calendarStore.getMarkedMap['2023-11-03'].activeOpacity).toBe(71);
+    expect(calendarStore.getMarkedMap['2023-11-03'].activeOpacity).toBe(13);
 
     expect(calendarStore.getMarkedMap['2023-11-13'].selected).toBe(undefined);
     expect(calendarStore.getMarkedMap['2023-11-13'].marked).toBe(true);
@@ -119,6 +97,10 @@ describe('CalendarStore test', () => {
     calendarStore.getEvents();
     calendarStore.selectUser(18);
     expect(calendarStore.getUsersList.find((user) => user.id === 18)?.isSelected).toBe(true);
-    expect(calendarStore.getEventsMap['2023-11-25'].length).toBe(5);
+    expect(calendarStore.getEventsMap['2023-11-25'].length).toBe(1);
+  });
+
+  it('should create snapshot', () => {
+    expect(getSnapshot(calendarStore.events)).toMatchSnapshot();
   });
 });
