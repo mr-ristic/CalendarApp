@@ -1,4 +1,31 @@
-# Welcome to your new ignited app!
+# Calendar Demo App
+
+Iginte was used.
+To install dependencies
+
+```bash
+yarn
+```
+
+To run tests:
+
+```bash
+yarn test
+```
+
+To start on ios:
+
+```bash
+yarn ios
+```
+
+To start on adnroid:
+
+```bash
+yarn android
+```
+
+Navigate to calendar screen and play around!
 
 [![CircleCI](https://circleci.com/gh/infinitered/ignite.svg?style=svg)](https://circleci.com/gh/infinitered/ignite)
 
